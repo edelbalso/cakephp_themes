@@ -1,0 +1,59 @@
+INTRODUCTION
+------------
+
+Developped by: edelbalso <http://github.com/edelbalso>
+
+This module adds theming capabilities above and beyond the default cakephp
+included theming capabilities. It essentially is centered not on production-
+quality high scalability webpages, but instead is focused on rapid prototyping
+and quick releasing mostly motivated by my low-traffic client work.
+
+The file structure and inclusion scheme is based on an article I wrote here : 
+
+http://bakery.cakephp.org/articles/view/maintaining-an-application-independant-code-library
+
+
+INSTALLATION
+------------
+
+1. Copy the files to its own folder on your computer. I prefer something like :
+
+   /Users/me/lib/cakephp/themeslib/
+
+2. Assuming the above directory, add the following line to your bootstrap.php :
+
+   require(DS.'Users'.DS.'edu'.DS.'lib'.DS.'cakephp'.DS.'themeslib'.DS.'lib.inc');
+
+4. In your AppController, add 'Interface' to your helpers vars.
+
+
+INSTRUCTIONS
+------------
+
+As I move forward this section will be more rigid. Basically the idea here is
+that all my web applications can be broken down into discrete elements: Forms,
+blockquotes, thumbnails, full images, etc etc.
+
+As a basis, I will be using all the interface elements defined in the Fluid960 
+distribution available here: http://www.designinfluences.com/fluid960gs/
+
+That is:
+ * Paragraph
+ * Menu
+ * Unordered List
+ * Ordered List
+ * Link
+ * Table
+ * Login Form
+ * Regular Form
+ * etc, etc.
+
+So the idea is that for each element, we can abstract the html into PHP function
+calls that output the desired markup. So opening a table would be:
+
+$interface->table() instead of <table>, and closed with $interface->ctable() 
+instead of </table>
+
+This will allow us to change markup application-wide instantaneously, as well as
+over-ride markup for common application-wide elements in the case where we're 
+using some sort of downloaded template who's CSS requires specific markup.
