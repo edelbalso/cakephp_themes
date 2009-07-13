@@ -26,6 +26,12 @@ INSTALLATION
 
 4. In your AppController, add 'Interface' to your helpers vars.
 
+5. In your config/core.php, add :
+
+   Configure::write('themeslib.theme','fluid960_fixed_12');
+
+   where fluid960_fixed_12 can be any theme name that exists.
+
 
 INSTRUCTIONS
 ------------

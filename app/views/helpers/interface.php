@@ -30,7 +30,7 @@ class InterfaceHelper extends AppHelper
 	
 	function getTheme()
 	{
-		if(!Configure::read('edlib.theme'))
+		if(!Configure::read('themeslib.theme'))
 		{
 			return "default";
 		}
