@@ -11,21 +11,28 @@
 class InterfaceHelper extends AppHelper
 {
 	var $name = 'Interface';
-	var $Theme = null;
 	
-	function beforeLayout()
+	var $Theme = null;
+		
+	function __construct()
 	{
-		parent::beforeLayout();
+		$this->__loadTheme();
+		
+		$this->helpers = $this->Theme->helpers;
+		parent::__construct();
 	}
 	
 	function __loadTheme()
 	{
-		$theme = $this->getTheme();
-		App::import('Vendor','interface_themes/default');
-		App::import('Vendor','interface_themes/'.$theme);
-		$className = Inflector::camelize($this->getTheme())."Theme";
-		$d = new $className();
-		$this->Theme = $d;
+		if($this->Theme == null)
+		{
+			$theme = $this->getTheme();
+			App::import('Vendor','interface_themes/default');
+			App::import('Vendor','interface_themes/'.$theme);
+			$className = Inflector::camelize($this->getTheme())."Theme";
+			$d = new $className();
+			$this->Theme = $d;
+		}
 	}
 	
 	function getTheme()
@@ -36,14 +43,24 @@ class InterfaceHelper extends AppHelper
 		}
 		else
 		{
-			return Configure::read('edlib.theme');
+			return Configure::read('themeslib.theme');
 		}
 	}
 	
 	public function __call( $method, $args )
 	{
 		$this->__loadTheme();
-		return $this->Theme->$method($args);
+		
+		// Helpers defined in Theme file are not loaded in
+		// Theme object, only in InterfaceHelper object, so
+		// we must now pass all the loaded helpers to the
+		// Theme object that has been loaded.
+		foreach($this->helpers as $i => $h)
+		{
+			$this->Theme->$h = $this->$h;
+		}
+		//print pr($this->Theme);die();
+		return $this->Theme->dispatchMethod($method,$args);
 	}
 
 }
